@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{base :: head('Home')}"></head>
+<body>
+    <div th:replace="~{base :: logo}"></div>
+
+    <div class="container">
+        <div th:replace="~{base :: titulo('Todos os Eventos')}"></div>
+
+        <div class="card mb-3" th:each="evento : ${eventos}">
+            <div class="card-header" th:text="${evento.nome}">Nome do Evento</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-sm-8 mb-3">
+                        <div class="col-md-5">
+                            Início: <span th:text="${#calendars.format(evento.inicio, 'dd/MM/yyyy - HH:mm')}">10/02/2022 - 19:00</span>
+                        </div>
+                        <div class="col-md-6">
+                            Fim: <span th:text="${#calendars.format(evento.fim, 'dd/MM/yyyy - HH:mm')}">10/02/2022 - 22:00</span>
+                        </div>
+
+                        <div>Descrição</div>
+                        <div>
+                            <textarea class="form-control" th:text="${evento.descricao}">descrição do evento</textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <div>
+                            <img class="img-thumbnail" th:src="${evento.urlImagem}" src="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

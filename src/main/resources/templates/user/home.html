@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{base :: head('Home')}"></head>
+<body>
+    <div th:replace="~{base :: logo}"></div>
+
+    <div class="container">
+        <div th:replace="~{base :: titulo('Meus Eventos')}"></div>
+
+        <nav class="navbar navbar-expand navbar-light bg-light d-flex justify-content-between mb-3">
+            <div class="navbar-nav" style="margin-left: 30px;">
+                <a th:classappend="${selected} == null ? 'active'" class="nav-item nav-link" th:href="@{/user/eventos}">Todos</a>
+                <a th:classappend="${selected} == 'inscritos' ? 'active'" class="nav-item nav-link" th:href="@{/user/eventos/inscritos}">Inscritos</a>
+                <a th:classappend="${selected} == 'finalizados' ? 'active'" class="nav-item nav-link" th:href="@{/user/eventos/finalizados}">Finalizados</a>
+            </div>
+        </nav>
+
+        <div class="card mb-3" th:each="evento : ${eventos}">
+            <div class="card-header" th:text="${evento.nome}">Nome do Evento</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-sm-8 mb-3">
+                        <div class="col-md-5">
+                            Início: <span th:text="${#calendars.format(evento.inicio, 'dd/MM/yyyy - HH:mm')}">10/02/2022 - 19:00</span>
+                        </div>
+                        <div class="col-md-6">
+                            Fim: <span th:text="${#calendars.format(evento.fim, 'dd/MM/yyyy - HH:mm')}">10/02/2022 - 22:00</span>
+                        </div>
+
+                        <div>Descrição</div>
+                        <div>
+                            <textarea class="form-control" th:text="${evento.descricao}">descrição do evento</textarea>
+                        </div>
+                        
+                        <button th:if="${@eventoService.renderBtnInscrever(evento.id)}" type="button" th:onclick="|window.location.href='/user/eventos/inscrever/' + ${evento.id}|"> Inscrever </button>
+                        <button th:if="${!@eventoService.renderBtnInscrever(evento.id)}" type="button" th:onclick="|window.location.href='/user/eventos/cancelarInscricao/' + ${evento.id}|"> Inscrito</button>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <div>
+                            <img class="img-thumbnail" th:src="${evento.urlImagem}" src="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
